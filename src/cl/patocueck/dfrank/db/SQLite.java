@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -142,6 +143,41 @@ public class SQLite {
         }
         
         return times.isEmpty()? null: times;
+    }
+
+    public Time getTimesFromPlayer(String player, String map, String physic) {
+        Time time = null;
+        
+        String sql = "SELECT player, map, time, date, physic FROM TIME WHERE player = ? AND map = ? AND physic = ? ORDER BY time ASC";
+        
+        try {
+            
+            Connection conn = this.connect();
+            PreparedStatement pstmt  = conn.prepareStatement(sql);
+            
+            pstmt.setString(1,player);
+            pstmt.setString(2,map.toUpperCase());
+            pstmt.setString(3,physic);
+            
+            ResultSet rs  = pstmt.executeQuery();
+            
+            // loop through the result set
+            while (rs.next()) {
+                time = new Time();
+                time.setPlayer(rs.getString("player"));
+                time.setMap(map.toUpperCase());
+                time.setTime(rs.getString("time"));
+                time.setDate(rs.getString("date"));
+                time.setPhysic(physic);
+            }
+            conn = null;
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+        return time;
     }
 
 }

@@ -58,7 +58,7 @@ public class DFRank {
                 List<TopCommand> topCommands = cmdListener.getTopCommand(sConsole);
                 for (TopCommand topCommand : topCommands) {
                     GameVo gameVo = q3Console.getGameValues();
-                    q3Console.sendMessageToConsole("say " + topCommand.execute(gameVo));
+                    q3Console.sendMessageToConsole("say " + topCommand.execute(sConsole, gameVo));
                 }               
             }
         } catch (Exception ex) {

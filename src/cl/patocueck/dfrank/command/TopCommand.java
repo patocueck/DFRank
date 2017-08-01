@@ -16,18 +16,29 @@ import java.util.List;
  * @author pato
  */
 public class TopCommand {
-   
-    public TopCommand() {
+    
+    private String map;
+    private String physic;
+    
+    public TopCommand(String map, String physic) {
+        this.map = map;
+        this.physic = physic!=null?physic.toUpperCase():null;
     }
         
-    public String execute(GameVo gameVo){
-        
+    public String execute(String sConsole, GameVo gameVo){
         List<Time> playerTime = null;
         SQLite sqlite = new SQLite();
         StringBuilder ret = new StringBuilder();
         
-        playerTime = sqlite.getTimesFromMap(gameVo.getMap(), gameVo.getPhysic());
-        ret.append("^2TOP 10^7: ==> ");
+        if (map == null) map = gameVo.getMap();
+        if (physic == null) physic = gameVo.getPhysic();
+                
+        playerTime = sqlite.getTimesFromMap(map, physic);
+        
+        ret.append("^2TOP 10^7: ^7[");
+        ret.append(map);ret.append("] [");
+        ret.append(physic);ret.append("]");
+        ret.append(" ==> ");
         int i=1;
         if (playerTime!=null){
             for (Time time : playerTime) {

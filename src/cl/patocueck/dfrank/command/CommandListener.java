@@ -42,7 +42,19 @@ public class CommandListener {
                 try{
                     String[] param = sConsoleLine.split(" ");
                     if (param[2].equalsIgnoreCase("!top")){
-                        topCmds.add(new TopCommand());
+                        String map;
+                        String physic;
+                        try{
+                            map = param[3];
+                        }catch(ArrayIndexOutOfBoundsException ex){
+                            map = null;
+                        }
+                        try{
+                            physic = param[4];
+                        }catch(ArrayIndexOutOfBoundsException ex){
+                            physic = null;
+                        }                        
+                        topCmds.add(new TopCommand(map, physic));
                     }
                     
                 }catch (ArrayIndexOutOfBoundsException ex){
@@ -63,11 +75,24 @@ public class CommandListener {
                 try{
                     String[] param = sConsoleLine.split(" ");
                     if (param[2].equalsIgnoreCase("!mytime")){
-                        myTimeCmds.add(new MyTimeCommand());
+                        String player = param[1].substring(0, param[1].length()-1); 
+                        String map;
+                        String physic;
+                        try{
+                            map = param[3];
+                        }catch(ArrayIndexOutOfBoundsException ex){
+                            map = null;
+                        }
+                        try{
+                            physic = param[4];
+                        }catch(ArrayIndexOutOfBoundsException ex){
+                            physic = null;
+                        }  
+                        myTimeCmds.add(new MyTimeCommand(player, map, physic));     
                     }
                     
                 }catch (ArrayIndexOutOfBoundsException ex){
-                    
+                    System.out.println("ArrayIndexOutOfBoundsException: " + ex.getLocalizedMessage());
                 }
             }
         }
